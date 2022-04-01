@@ -31,13 +31,22 @@ public class JumpingScript : MonoBehaviour
     void ShootRaycast()
     {
         RaycastHit hit;
-        if (Physics.Raycast(Cam.transform.position, Cam.transform.forward, out hit, range))
+        if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
         {
+            Debug.Log(hit.transform.name);
+
             Target target = hit.transform.GetComponent<Target>();
             if (target != null)
             {
-                grounded = true;
+                StartCoroutine(JumpBool());
             }
         }
+    }
+
+    IEnumerator JumpBool()
+    {
+        grounded = true;
+        yield return new WaitForSeconds(0.1f);
+        grounded = false;
     }
 }
